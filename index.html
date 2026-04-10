@@ -91,7 +91,7 @@
     };
 
     let sessionId = createSessionId();
-    const url = "http://localhost:3001";
+    const url = "https://ai-node-production-3218.up.railway.app";
     const messageList = document.querySelector("#messageList");
     const chatInput = document.querySelector("#chatInput");
     const sendButton = document.querySelector("#sendButton");
@@ -191,7 +191,9 @@
         aiChatHistory = res.data || [];
         
         aiChatHistory.forEach((item) => {
-          const content = item.data.find(msg => msg.role === 'user')[0]?.content || '新会话';
+          const content = item.data.find(msg => msg.role === 'user')?.content || '新会话';
+          console.log(content,'content',item.data,item.data.find(msg => msg.role === 'user'));
+          
           let div = sessionList.querySelector(
             `[data-session-id="${item.sessionId}"]`,
           );
@@ -216,7 +218,7 @@
       try {
         const div = document.createElement("div");
         div.className = "message ai";
-        let res = await fetch("http://localhost:3001/chatMessage/stream", {
+        let res = await fetch(`${url}/chatMessage/stream`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
